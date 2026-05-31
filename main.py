@@ -12,6 +12,11 @@ Usage:
 import os
 import sys
 import argparse
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -26,7 +31,7 @@ from rich.rule import Rule
 from upsearch.agents import scout, analyst, strategist, writer
 from upsearch import tracker, llm, supervisor as sup
 
-console = Console()
+console = Console(legacy_windows=False)
 
 
 def load_profile() -> str:

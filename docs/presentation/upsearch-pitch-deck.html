@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UpSearch pitch deck</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --ink: #11110f;
+        --muted: #726d63;
+        --paper: #f5f3ed;
+        --panel: rgba(255, 253, 248, 0.96);
+        --line: #d9d3c8;
+        --orange: #ff5a24;
+        --blue: #315ce5;
+        --green: #13825c;
+        --shadow: 0 22px 55px rgba(32, 29, 22, 0.15);
+      }
+
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #d9d5cd; color: var(--ink); }
+      .deck { display: grid; gap: 32px; padding: 32px; justify-content: center; }
+      .slide {
+        width: 1600px;
+        height: 900px;
+        position: relative;
+        overflow: hidden;
+        background: var(--paper);
+        isolation: isolate;
+      }
+      .slide::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border: 1px solid rgba(91, 83, 68, 0.13);
+      }
+      .content { position: relative; z-index: 2; height: 100%; padding: 64px 72px; }
+      .topline {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 18px;
+        letter-spacing: 0.02em;
+      }
+      .brand { display: flex; gap: 13px; align-items: center; font-weight: 800; }
+      .brand-mark {
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #fffdf8;
+        box-shadow: 0 8px 20px rgba(38, 34, 26, 0.08);
+        font-family: Georgia, serif;
+      }
+      .slide-num { color: var(--muted); font-size: 14px; font-weight: 800; letter-spacing: 0.16em; }
+      .eyebrow {
+        margin: 0 0 14px;
+        color: var(--orange);
+        font-size: 14px;
+        font-weight: 900;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+      h1, h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -0.065em; }
+      h1 { font-size: 106px; line-height: 0.93; max-width: 1030px; }
+      h2 { font-size: 88px; line-height: 0.94; max-width: 1020px; }
+      h3 { margin: 0; font-size: 22px; line-height: 1.15; }
+      p { margin: 0; }
+      .lede { max-width: 790px; color: var(--muted); font-size: 22px; line-height: 1.5; }
+      .small { color: var(--muted); font-size: 16px; line-height: 1.45; }
+      .screen {
+        overflow: hidden;
+        border: 1px solid rgba(123, 113, 96, 0.28);
+        border-radius: 19px;
+        background: #fff;
+        box-shadow: var(--shadow);
+      }
+      .screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+      .browser-bar {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        height: 30px;
+        padding: 0 14px;
+        border-bottom: 1px solid #e5dfd5;
+        background: #faf8f3;
+      }
+      .browser-bar i { width: 7px; height: 7px; border-radius: 50%; background: #cfc8bc; }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: rgba(255, 253, 248, 0.9);
+        padding: 9px 14px;
+        color: #565046;
+        font-size: 14px;
+        font-weight: 800;
+      }
+      .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+      .rule { height: 1px; background: var(--line); }
+      .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--panel);
+        padding: 20px;
+      }
+      .card-no { color: var(--orange); font: 800 13px/1 monospace; letter-spacing: 0.12em; }
+      .card h3 { margin-top: 18px; }
+      .card p { margin-top: 10px; }
+      .split { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+      .caption { margin-top: 13px; color: var(--muted); font-size: 15px; }
+
+      .hero-art {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero-shade {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(245, 243, 237, 0.97) 0%, rgba(245, 243, 237, 0.9) 42%, rgba(245, 243, 237, 0.28) 100%);
+      }
+      .hero-copy { margin-top: 90px; }
+      .hero-copy h1 { max-width: 930px; }
+      .hero-copy .lede { margin-top: 25px; max-width: 700px; }
+      .hero-screen {
+        position: absolute;
+        right: 70px;
+        bottom: 58px;
+        width: 660px;
+        height: 370px;
+        transform: rotate(-2deg);
+      }
+      .hero-badge { position: absolute; right: 95px; top: 116px; }
+
+      .problem-title { margin-top: 58px; }
+      .problem-title h2 { max-width: 840px; }
+      .problem-title .lede { margin-top: 18px; max-width: 720px; }
+      .problem-cards { width: 720px; margin-top: 32px; }
+      .problem-screen {
+        position: absolute;
+        right: 68px;
+        bottom: 58px;
+        width: 735px;
+        height: 548px;
+      }
+
+      .flow-title { margin-top: 56px; display: flex; justify-content: space-between; gap: 50px; align-items: end; }
+      .flow-title .lede { max-width: 520px; padding-bottom: 5px; }
+      .flow-screen { width: 100%; height: 408px; margin-top: 25px; }
+      .flow-steps { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 18px; gap: 14px; }
+      .flow-step { padding-top: 11px; border-top: 1px solid var(--line); }
+      .flow-step strong { display: block; margin-bottom: 5px; font-size: 18px; }
+
+      .harness-head { margin-top: 54px; display: grid; grid-template-columns: 1.08fr 0.92fr; gap: 52px; align-items: end; }
+      .harness-head h2 { max-width: 850px; }
+      .harness-screen { height: 410px; margin-top: 34px; }
+      .harness-badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 19px; }
+      .metric { border-top: 1px solid var(--line); padding-top: 11px; }
+      .metric strong { display: block; margin-bottom: 4px; font-size: 20px; }
+
+      .proof-title { margin-top: 52px; display: flex; justify-content: space-between; gap: 42px; align-items: end; }
+      .proof-title .lede { max-width: 560px; padding-bottom: 7px; }
+      .proof-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 23px; margin-top: 32px; }
+      .proof-main { height: 470px; }
+      .proof-side { display: grid; gap: 18px; }
+      .proof-side .screen { height: 226px; }
+      .proof-main img { object-position: 48% 30%; }
+      .proof-side img { object-position: 50% 55%; }
+
+      .close-copy { margin-top: 68px; max-width: 850px; }
+      .close-copy .lede { margin-top: 24px; max-width: 510px; }
+      .close-screen-one { position: absolute; right: 54px; top: 156px; width: 620px; height: 386px; transform: rotate(2.5deg); }
+      .close-screen-two { position: absolute; right: 332px; bottom: 54px; width: 670px; height: 360px; transform: rotate(-2deg); }
+      .close-strip { position: absolute; left: 72px; bottom: 68px; display: flex; gap: 13px; align-items: center; }
+      .close-strip strong { font-size: 20px; }
+
+      @media print {
+        @page { size: 16in 9in; margin: 0; }
+        body { background: #fff; }
+        .deck { display: block; padding: 0; }
+        .slide { break-after: page; width: 1600px; height: 900px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="deck">
+      <section class="slide" id="slide-01">
+        <img class="hero-art" src="./assets/signal-flow-hero.png" alt="" />
+        <div class="hero-shade"></div>
+        <div class="content">
+          <div class="topline">
+            <div class="brand"><span class="brand-mark">⌕</span><span>UpSearch</span></div>
+            <span class="slide-num">01 / 06</span>
+          </div>
+          <div class="hero-copy">
+            <p class="eyebrow">Opportunity intelligence for technical builders</p>
+            <h1>Turn public signal into credible outreach.</h1>
+            <p class="lede">UpSearch researches the company, isolates a real technical problem, and drafts the first message. The human stays in control.</p>
+          </div>
+          <span class="pill hero-badge"><span class="dot"></span> Public signal → technical conversation</span>
+          <div class="screen hero-screen">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="./assets/current-quick-search.png" alt="UpSearch quick search UI" />
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-02">
+        <div class="content">
+          <div class="topline">
+            <div class="brand"><span class="brand-mark">⌕</span><span>UpSearch</span></div>
+            <span class="slide-num">02 / 06</span>
+          </div>
+          <div class="problem-title">
+            <p class="eyebrow">The starting problem</p>
+            <h2>Applications begin too broad.</h2>
+            <p class="lede">A promising role is not enough. Early-career builders need a specific reason to talk to a specific technical team.</p>
+          </div>
+          <div class="grid-3 problem-cards">
+            <article class="card"><span class="card-no">01</span><h3>Signal is scattered</h3><p class="small">Posts, product updates, engineering blogs, and hiring clues live in different places.</p></article>
+            <article class="card"><span class="card-no">02</span><h3>Context is expensive</h3><p class="small">A real outreach angle takes research, synthesis, and a credible adjacent proof point.</p></article>
+            <article class="card"><span class="card-no">03</span><h3>Volume is the wrong goal</h3><p class="small">One thoughtful technical conversation can beat another hundred generic applications.</p></article>
+          </div>
+          <div class="screen problem-screen">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="./assets/current-quick-search.png" alt="UpSearch public signal search UI" />
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-03">
+        <div class="content">
+          <div class="topline">
+            <div class="brand"><span class="brand-mark">⌕</span><span>UpSearch</span></div>
+            <span class="slide-num">03 / 06</span>
+          </div>
+          <div class="flow-title">
+            <div>
+              <p class="eyebrow">The product loop</p>
+              <h2>One company becomes a technical packet.</h2>
+            </div>
+            <p class="lede">Opportunity OS moves from a vague target to a company-specific brief, a useful artifact, and outreach worth approving.</p>
+          </div>
+          <div class="screen flow-screen">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="./assets/current-os-idle.png" alt="Opportunity OS packet studio UI" />
+          </div>
+          <div class="flow-steps">
+            <div class="flow-step"><strong>01 · Source</strong><span class="small">Company, roles, public signal</span></div>
+            <div class="flow-step"><strong>02 · Build</strong><span class="small">Problem, people, artifact</span></div>
+            <div class="flow-step"><strong>03 · Verify</strong><span class="small">Claims, tone, evidence</span></div>
+            <div class="flow-step"><strong>04 · Approve</strong><span class="small">Exact human action gate</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-04">
+        <div class="content">
+          <div class="topline">
+            <div class="brand"><span class="brand-mark">⌕</span><span>UpSearch</span></div>
+            <span class="slide-num">04 / 06</span>
+          </div>
+          <div class="harness-head">
+            <div>
+              <p class="eyebrow">The coordination layer</p>
+              <h2>Agents coordinate. Humans approve.</h2>
+            </div>
+            <p class="lede">The harness gives each agent a typed goal, allowed tools, validators, and a ledger event. External actions stay blocked until approval.</p>
+          </div>
+          <div class="screen harness-screen">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="./assets/current-harness-demo.png" alt="UpSearch agent harness UI" />
+          </div>
+          <div class="harness-badges">
+            <div class="metric"><strong>Typed handoffs</strong><span class="small">Each stage leaves structured output.</span></div>
+            <div class="metric"><strong>Supervisor QA</strong><span class="small">Claims and outreach rules are checked.</span></div>
+            <div class="metric"><strong>Approval gate</strong><span class="small">No message is sent autonomously.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-05">
+        <div class="content">
+          <div class="topline">
+            <div class="brand"><span class="brand-mark">⌕</span><span>UpSearch</span></div>
+            <span class="slide-num">05 / 06</span>
+          </div>
+          <div class="proof-title">
+            <div>
+              <p class="eyebrow">What the user gets</p>
+              <h2>Useful work before the first message.</h2>
+            </div>
+            <p class="lede">The output is not just a draft. It is a compact technical case: the problem, the proof, the artifact, the people, and the outreach variants.</p>
+          </div>
+          <div class="proof-grid">
+            <div>
+              <div class="screen proof-main">
+                <div class="browser-bar"><i></i><i></i><i></i></div>
+                <img src="./assets/current-os-packet.png" alt="Completed technical packet UI" />
+              </div>
+              <p class="caption">A company-specific packet with sourced problems and an artifact plan.</p>
+            </div>
+            <div class="proof-side">
+              <div class="screen"><img src="./assets/current-os-note.png" alt="Technical note UI" /></div>
+              <div class="screen"><img src="./assets/current-os-drafts.png" alt="Outreach drafts UI" /></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="slide" id="slide-06">
+        <div class="content">
+          <div class="topline">
+            <div class="brand"><span class="brand-mark">⌕</span><span>UpSearch</span></div>
+            <span class="slide-num">06 / 06</span>
+          </div>
+          <div class="close-copy">
+            <p class="eyebrow">UpSearch</p>
+            <h2>Find the next technical conversation worth having.</h2>
+            <p class="lede">Start with a company or a problem space. End with a focused packet and one message you are ready to stand behind.</p>
+          </div>
+          <div class="screen close-screen-one">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="./assets/current-os-approval.png" alt="UpSearch approval queue UI" />
+          </div>
+          <div class="screen close-screen-two">
+            <div class="browser-bar"><i></i><i></i><i></i></div>
+            <img src="./assets/current-os-idle.png" alt="UpSearch Opportunity OS UI" />
+          </div>
+          <div class="close-strip">
+            <span class="pill"><span class="dot"></span> Research</span>
+            <span class="pill">Build</span>
+            <span class="pill">Verify</span>
+            <span class="pill">Approve</span>
+            <strong>Action over analysis.</strong>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
